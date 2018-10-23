@@ -215,6 +215,10 @@ class TraversalSideEffects {
 
 }
 
+const withOptions = {
+  <%= withOptions.collect { it.name + ": " + it.value }.join(",\n  ")%>
+};
+
 function toEnum(typeName, keys) {
   const result = {};
   keys.split(' ').forEach(k => {
@@ -242,6 +246,7 @@ module.exports = {
   EnumValue,
   P,
   TextP,
+  withOptions,
   IO,
   Traversal,
   TraversalSideEffects,
