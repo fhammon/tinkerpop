@@ -74,6 +74,8 @@ public abstract class AddVertexTest extends AbstractGremlinTest {
 
     public abstract Traversal<Vertex, String> get_g_withSideEffectXa_nameX_addV_propertyXselectXaX_markoX_name();
 
+    public abstract Traversal<Vertex, Map<Object, Object>> get_g_V_asXaX_hasXname_markoX_outXcreatedX_asXbX_addVXselectXaX_labelX_propertyXtest_selectXbX_labelX_valueMapXtrueX();
+
     public abstract Traversal<Vertex, Map<Object, Object>> get_g_V_asXaX_hasXname_markoX_outXcreatedX_asXbX_addVXselectXaX_labelX_propertyXtest_selectXbX_labelX_valueMap_withXtokensX();
 
     @Test
@@ -286,6 +288,21 @@ public abstract class AddVertexTest extends AbstractGremlinTest {
     @LoadGraphWith(MODERN)
     @FeatureRequirement(featureClass = Graph.Features.VertexFeatures.class, feature = Graph.Features.VertexFeatures.FEATURE_ADD_VERTICES)
     @FeatureRequirement(featureClass = Graph.Features.VertexFeatures.class, feature = Graph.Features.VertexFeatures.FEATURE_ADD_PROPERTY)
+    public void g_V_asXaX_hasXname_markoX_outXcreatedX_asXbX_addVXselectXaX_labelX_propertyXtest_selectXbX_labelX_valueMapXtrueX() {
+        final Traversal<Vertex, Map<Object,Object>> traversal = get_g_V_asXaX_hasXname_markoX_outXcreatedX_asXbX_addVXselectXaX_labelX_propertyXtest_selectXbX_labelX_valueMapXtrueX();
+        printTraversalForm(traversal);
+        final Map<Object,Object> map = traversal.next();
+        assertFalse(traversal.hasNext());
+        assertEquals("person",map.get(T.label));
+        assertEquals("software",((List)map.get("test")).get(0));
+        assertEquals(1, ((List)map.get("test")).size());
+        assertEquals(3, map.size());
+    }
+
+    @Test
+    @LoadGraphWith(MODERN)
+    @FeatureRequirement(featureClass = Graph.Features.VertexFeatures.class, feature = Graph.Features.VertexFeatures.FEATURE_ADD_VERTICES)
+    @FeatureRequirement(featureClass = Graph.Features.VertexFeatures.class, feature = Graph.Features.VertexFeatures.FEATURE_ADD_PROPERTY)
     public void g_V_asXaX_hasXname_markoX_outXcreatedX_asXbX_addVXselectXaX_labelX_propertyXtest_selectXbX_labelX_valueMap_withXtokensX() {
         final Traversal<Vertex, Map<Object,Object>> traversal = get_g_V_asXaX_hasXname_markoX_outXcreatedX_asXbX_addVXselectXaX_labelX_propertyXtest_selectXbX_labelX_valueMap_withXtokensX();
         printTraversalForm(traversal);
@@ -357,6 +374,11 @@ public abstract class AddVertexTest extends AbstractGremlinTest {
         @Override
         public Traversal<Vertex, String> get_g_addVXV_hasXname_markoX_propertiesXnameX_keyX_label() {
             return g.addV(V().has("name", "marko").properties("name").key()).label();
+        }
+
+        @Override
+        public Traversal<Vertex, Map<Object, Object>> get_g_V_asXaX_hasXname_markoX_outXcreatedX_asXbX_addVXselectXaX_labelX_propertyXtest_selectXbX_labelX_valueMapXtrueX() {
+            return g.V().as("a").has("name", "marko").out("created").as("b").addV(select("a").label()).property("test", select("b").label()).valueMap(true);
         }
 
         @Override

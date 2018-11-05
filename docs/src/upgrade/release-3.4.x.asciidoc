@@ -93,6 +93,12 @@ gremlin> g.V().has("person","name","marko").properties("location").valueMap().wi
 ==>[value:santa fe,startTime:2005]
 ```
 
+As shown above, the support of the `with()` modulator for `valueMap()` makes the `valueMap(boolean)` overload superfluous, hence this overload is now deprecated. This is a breaking API change, since
+`valueMap()` will now always yield instances of type `Map<Object, Object>`. Prior this change only the `valueMap(boolean)` overload yielded `Map<Object, Object>` objects, `valueMap()` without the
+boolean parameter used to yield instances of type `Map<String, Object>`.
+
+See: link:https://issues.apache.org/jira/browse/TINKERPOP-2059[TINKERPOP-2059]
+
 ==== Changed number comparison behavior of within()/without() predicates
 
 In previous versions `within()` and `without()` performed strict number comparisons; that means these predicates did not only compare number values, but also the time. This was inconsistent with

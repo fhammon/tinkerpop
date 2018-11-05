@@ -262,6 +262,8 @@ public class __ {
 
     /**
      * @see GraphTraversal#valueMap(boolean, String...)
+     * @deprecated As of release 3.4.0, deprecated in favor of {@link __#valueMap(String...)} in conjunction with
+     *             {@link GraphTraversal#with(String, Object)}.
      */
     @Deprecated
     public static <A extends Element, B> GraphTraversal<A, Map<Object, B>> valueMap(final boolean includeTokens, final String... propertyKeys) {
